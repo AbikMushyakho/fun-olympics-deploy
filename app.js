@@ -24,6 +24,7 @@ import categoryRouter from "./controller/category.js";
 import newsRouter from "./controller/news.js";
 import videoRouter from "./controller/video.js";
 import changePasswordRouter from "./controller/forget_pw.js"
+import mailSender from "./auth/mailSender.js";
 
 mongoose
   .connect(MONGODB_URI)
@@ -47,10 +48,15 @@ app.use(userExtractor);
 
 // info(path.join(__dirname, 'build', 'index.js'));
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
+app.get("/ungabunga", (req, res) => {
+  mailSender.SendEmail("abikmushyakho9@gmail.com");
+
+  res.send("ungabunga");
+});
 
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
