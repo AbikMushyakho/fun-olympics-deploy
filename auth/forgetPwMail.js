@@ -1,6 +1,12 @@
 import nodemailer from "nodemailer";
 import fpMails from "./fpMails.js";
-import { SENDER_EMAIL, EMAIL_PASSWORD } from "../utils/config.js";
+import {
+  SENDER_EMAIL,
+  EMAIL_PASSWORD,
+  EMAIL_HOST,
+  EMAIL_PORT,
+  FROM_EMAIL,
+} from "../utils/config.js";
 
 class ForgetPwMail {
   SendEmail = async (email) => {
@@ -13,8 +19,8 @@ class ForgetPwMail {
       // using nodemailer to send mail
       // creating an transport
       let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
+        host: EMAIL_HOST,
+        port: EMAIL_PORT,
         auth: {
           user: SenderEmail,
           pass: EMAIL_PASSWORD,
@@ -25,7 +31,7 @@ class ForgetPwMail {
       const verifymail = await this.CheckValidEmail(transporter);
       if (!verifymail) return false;
       let info = transporter.sendMail({
-        from: SenderEmail,
+        from: FROM_EMAIL,
         to: ReceiverEmail,
         subject: "Verification ✔",
         text: "Change password verification",
